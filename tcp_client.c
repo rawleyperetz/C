@@ -149,16 +149,16 @@ int main(int argc, char **argv) {
           return 0;
         }
         server_response[responseBytes] = '\0';
-        printf("> \033[32m%s\033[0m\n", server_response);
+        printf("Server >> %s", server_response);
       } else if (fd == STDIN_FILENO) {
         char msg[BUFFERSIZE];
         fgets(msg, BUFFERSIZE - 1, stdin);
-        if (strcmp(msg, "/quit") == 0) {
 
+        size_t lenMsg = strlen(msg);
+        if (strcmp(msg, "/quit\n") == 0) {
           close(sockfd);
           return 0;
         }
-        size_t lenMsg = strlen(msg);
         ssize_t msgBytes = send(sockfd, msg, lenMsg, 0);
         if (msgBytes == -1) {
           perror("server closed");

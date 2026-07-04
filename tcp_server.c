@@ -87,6 +87,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
+  printf("[*] Server is ready and listening on 9002\n");
   // did anything happen?
   struct epoll_event events[10];
   while (1) {
@@ -122,6 +123,7 @@ int main() {
           if (!tmp) {
             perror("Memory reallocation failed:");
             close(sockfd);
+            free(client_fd_arr);
             return EXIT_FAILURE;
           } else {
             client_fd_arr = tmp;
@@ -181,6 +183,7 @@ int main() {
     }
   }
 
+  free(client_fd_arr);
   close(sockfd);
   return 0;
 }
